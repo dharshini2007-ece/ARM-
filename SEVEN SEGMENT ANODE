@@ -5,8 +5,7 @@ unsigned int a[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90};
 int i;
 int main()
 {
-	PINSEL0=0X00000000;
-	IODIR0|=0X0000FFFF;
+	IODIR0=IODIR0|0X0000FFFF;
 	while(1)
 	{
 		for(i=0;i<10;i++)
