@@ -1,0 +1,76 @@
+#include <lpc214x.h>
+void lcdcmd(char cmt);
+void dat(char data);
+void delay(void);
+int main()
+{
+	PINSEL2=0X00000000;
+	IODIR0=0XFFFFFFFF;
+	IODIR1=IODIR1|(0X01<<16);
+	IODIR1=IODIR1|(0X01<<17);
+	IODIR1=IODIR1|(0X01<<18);
+	PINSEL1=0X00000000;
+	while(1)
+	{
+		lcdcmd(0x38);
+		delay();
+		
+		lcdcmd(0x01);
+		delay();
+		
+		lcdcmd(0x06);
+		delay();
+		
+		lcdcmd(0x0C);
+		delay();
+		
+		lcdcmd(0x80);
+		delay();
+		
+		dat('A');
+		delay();
+		
+		dat('R');
+		delay();
+		
+		dat('M');
+		delay();
+		
+		dat('L');
+		delay();
+		
+		dat('C');
+		delay();
+		
+		dat('D');
+		delay();
+		
+		
+	}
+}
+void lcdcmd(char cmt)
+{
+	IOPIN0=cmt;
+	IOCLR1=IOCLR1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+}
+void dat(char data)
+{
+	IOPIN0=data;
+	IOSET1=IOSET1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+}
+void delay()
+{
+	unsigned int i,j;
+	for(i=0;i<1000;i++)
+	{
+		for(j=0;j<100;j++);
+	}
+}
