@@ -1,0 +1,29 @@
+#include <lpc214x.h>
+void delay(int);
+
+unsigned int a[]={0xC0,0xF9,0xA4,0xB0,0x99,0x92,0x82,0xF8,0x80,0x90};
+int i;
+int main()
+{
+	PINSEL0=0X00000000;
+	IODIR0|=0X0000FFFF;
+	while(1)
+	{
+		for(i=0;i<10;i++)
+		{
+		
+    IOSET0=IOSET0|a[i];
+		delay(9000);
+		IOCLR0=IOCLR0|a[i];
+	
+	}
+}
+}
+void delay(int dly)
+{
+	int i,j;
+	for(i=0;i<dly;i++)
+	{
+		for(j=0;j<1000;j++);
+	}
+}
