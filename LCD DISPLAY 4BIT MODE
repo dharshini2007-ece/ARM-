@@ -1,0 +1,127 @@
+#include <lpc214x.h>
+void lcdcmd(char cmt);
+void dat(char data);
+void delay(void);
+int main()
+{
+	PINSEL2=0X00000000;
+	IODIR0=0XFFFFFFFF;
+	IODIR1=IODIR1|(0X01<<16);
+	IODIR1=IODIR1|(0X01<<17);
+	IODIR1=IODIR1|(0X01<<18);
+	PINSEL1=0X00000000;
+while(1)
+{
+	    lcdcmd(0x02); // for setting 4-bit mode
+	    delay();
+	
+		lcdcmd(0x28);  //this encounters 4-bit mode with 2 lines
+		delay();
+
+		lcdcmd(0x01); // clear the display
+		delay();
+		
+		lcdcmd(0x06); //entry 
+		delay();
+		
+		lcdcmd(0x0F); //display on curson blinking
+		delay();
+		
+		lcdcmd(0x80);//first line
+	delay();
+		
+		dat('D');
+		delay();
+		
+				dat('H');
+		delay();
+		
+				dat('A');
+		delay();
+		
+				dat('R');
+		delay();
+		
+				dat('S');
+		delay();
+		
+				dat('H');
+		delay();
+		
+				dat('I');
+		delay();
+		
+				dat('N');
+		delay();
+		
+				dat('I');
+		delay();
+	
+		lcdcmd(0xC0); //second line
+		delay();
+	
+				dat('E');
+		delay();
+		
+				dat('M');
+		delay();
+		
+				dat('B');
+		delay();
+		
+				dat('E');
+		delay();
+		
+				dat('D');
+		delay();
+		
+				dat('D');
+		delay();
+		
+				dat('E');
+		delay();
+		
+				dat('D');
+		delay();
+				
+			}
+}
+void lcdcmd(char cmt)
+{
+	IOPIN0=cmt&(0xF0);    //higher nibble
+	IOCLR1=IOCLR1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+	IOPIN0=(cmt<<4)&(0xF0);      //lower nibble
+	IOCLR1=IOCLR1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+	
+}
+void dat(char data)
+{
+	IOPIN0=data&(0xF0); //higher nibble
+	IOSET1=IOSET1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+	IOPIN0=(data<<4)&(0xF0);  //lower nibble
+	IOSET1=IOSET1|(0X01<<16);
+	IOCLR1=IOCLR1|(0X01<<17);
+	IOSET1=IOSET1|(0X01<<18);
+	delay();
+	IOCLR1=IOCLR1|(0X01<<18);
+}
+void delay()
+{
+	unsigned int i,j;
+	for(i=0;i<1000;i++)
+	{
+		for(j=0;j<100;j++);
+	}
+}
