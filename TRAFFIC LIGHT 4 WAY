@@ -1,0 +1,72 @@
+#include <lpc214x.h>
+void delay(unsigned int);
+void all_red()
+{
+	IOSET0=(1<<0)|(1<<3)|(1<<6)|(1<<9);
+	IOCLR0=(1<<1)|(1<<2)|(1<<4)|(1<<5)|(1<<7)|(1<<8)|(1<<10)|(1<<11);
+
+}
+int main()
+{
+	PINSEL0=0X00000000;
+	IODIR0=0X0000FFFF;
+	while(1)
+	{
+		//north
+		all_red();
+		IOCLR0=(1<<0); //NORTH RED-OFF
+		IOSET0 =(1<<2); //NORTH GREEN-ON ALL OTHERS ARE RED
+		delay(9000);
+		
+		//setting yellow to north
+		IOCLR0=(1<<2);
+		IOSET0=(1<<1);
+		delay(5000);
+		
+		//south 
+		all_red();
+		IOCLR0=(1<<9); //SOUTH RED-OFF
+		IOSET0 =(1<<11); //SOUTH GREEN-ON ALL OTHERS ARE RED
+		delay(9000);
+		
+		//setting yellow to south
+		IOCLR0=(1<<11);
+		IOSET0=(1<<10);
+		delay(5000);
+		
+		//EAST
+		all_red();
+		IOCLR0=(1<<3); //EAST RED-OFF
+		IOSET0 =(1<<5); //EAST GREEN-ON ALL OTHERS ARE RED
+		delay(9000);
+		
+		//setting yellow to east
+		IOCLR0=(1<<5);
+		IOSET0=(1<<4);
+		delay(5000);
+		
+		//WEST
+		all_red();
+		IOCLR0=(1<<6); //WEST RED-OFF
+		IOSET0 =(1<<8); //WEST GREEN-ON ALL OTHERS ARE RED
+		delay(9000);
+		
+		//setting yellow to west
+		IOCLR0=(1<<8);
+		IOSET0=(1<<7);
+		delay(5000);
+		
+	}
+}
+
+
+void delay(unsigned int dly)
+{
+	int i,j;
+	for(i=0;i<dly;i++)
+	{
+		for(j=0;j<1000;j++);
+		{
+		}
+	}
+}
