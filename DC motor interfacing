@@ -1,0 +1,30 @@
+#include <lpc214x.h>
+void delay(unsigned int);
+int main()
+{
+	PINSEL0 =0X00000000;
+	IODIR0 =IODIR0|(1<<4);  // DC MOTOR IS 2PIN 
+	IODIR0 =IODIR0|(1<<5);
+	while(1)
+	{
+		IOCLR0 = IOCLR0|(1<<4)|(1<<5);
+		IOSET0 =IOSET0|(1<<5); //anti-clockwise direction
+		delay(50000);
+		IOCLR0 =IOCLR0|(1<<5);
+		IOSET0=IOSET0|(1<<4); //clockwise direction
+		delay(50000);
+		IOSET0=IOSET0|(1<<4)|(1<<5);  //brake or off
+		delay(50000);
+	}
+}
+
+void delay(unsigned int dly)
+{
+	unsigned int i,j;
+	for(i=0;i<dly;i++)
+	{
+		for(j=0;j<100;j++);
+		{
+		}
+	}
+}
